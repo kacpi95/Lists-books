@@ -1,35 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import BooksForm from './components/BooksForm/BooksForm';
+import BooksList from './components/BooksList/BooksList';
+import { shortid } from 'shortid';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [books, setBooks] = useState([
+    {
+      id: 1,
+      title: 'of Mice and Men',
+      author: 'John Steinbeck',
+    },
+    {
+      id: 2,
+      title: 'the Witcher',
+      author: 'Andrzej Sapkowski',
+    },
+  ]);
+
+  const removeBook = (bookID) => {
+    setBooks(books.filter((book) => book.id !== bookID));
+  };
+  const addBook = (newBook) => {
+    setBooks([
+      ...books,
+      { id: shortid, title: newBook.title, author: newBook.author },
+    ]);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div>
+      <h1>Hello World</h1>
+      <BooksList books={books} removeBook={removeBook} />
+      <BooksForm addBook={addBook} />
+    </div>
+  );
 }
 
-export default App
+export default App;
